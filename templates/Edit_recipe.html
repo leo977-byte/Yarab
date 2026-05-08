@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Recipe - Admin</title>
+  <link rel="stylesheet" href="Edit_recipe.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  
+  <nav class="navbar">
+    <img class="nav-logo" src="Cake_Logo.png">
+    <div class="nav-links">
+      <a href="Home_Page.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="Recipes_List.html"><i class="fa-solid fa-utensils"></i> Recipes</a>
+      <a href="ADD_Recipe.html"><i class="fa-utility fa-semibold fa-plus"></i> Add Recipe</a>
+      <a href="Home_Page.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+  </nav>
+
+ 
+  <div class="page-wrapper">
+    <div class="card">
+
+      <div class="card-header">
+        <h1>Edit Recipe</h1>
+        <p>Admin Panel · Update recipe details below</p>
+      </div>
+
+      <div class="card-body">
+        <form id="edit-recipe-form">
+          
+          <div class="field-group">
+            <label for="recipe_id">Recipe ID</label>
+            <input type="text" id="recipe_id" name="recipe_id">
+          </div>
+
+          
+          <div class="field-group">
+            <label for="recipe_name">Recipe Name</label>
+            <input type="text" id="recipe_name" name="recipe_name" required>
+          </div>
+
+          
+          <div class="field-group">
+            <label for="course_name">Course Name</label>
+            <select id="course_name" name="course_name" required>
+              <option value="appetizers">Appetizers</option>
+              <option value="main_course" selected>Main Course</option>
+              <option value="dessert">Dessert</option>
+            </select>
+          </div>
+
+          
+          <div class="field-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" required></textarea>
+          </div>
+
+          
+          <div class="section-title">
+            <h2>Ingredients</h2>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Ingredient Name</th>
+                  <th>Quantity</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="ingredients_table">
+                <tr>
+                  <td><input type="text" name="ingredient_id[]" value="1" readonly size="5"></td>
+                  <td><input type="text" name="ingredient_name[]" value="Spaghetti" required></td>
+                  <td><input type="text" name="ingredient_qty[]" value="200g" required></td>
+                  <td><button type="button" class="btn btn-remove" onclick="removeRow(this)">✕ Remove</button></td>
+                </tr>
+                <tr>
+                  <td><input type="text" name="ingredient_id[]" value="2" readonly size="5"></td>
+                  <td><input type="text" name="ingredient_name[]" value="Eggs" required></td>
+                  <td><input type="text" name="ingredient_qty[]" value="3" required></td>
+                  <td><button type="button" class="btn btn-remove" onclick="removeRow(this)">✕ Remove</button></td>
+                </tr>
+                <tr>
+                  <td><input type="text" name="ingredient_id[]" value="3" readonly size="5"></td>
+                  <td><input type="text" name="ingredient_name[]" value="Pancetta" required></td>
+                  <td><input type="text" name="ingredient_qty[]" value="100g" required></td>
+                  <td><button type="button" class="btn btn-remove" onclick="removeRow(this)">✕ Remove</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button type="button" class="btn btn-add" onclick="addIngredient()">＋ Add Ingredient</button>
+
+          
+          <div class="actions">
+            <button type="submit" class="btn btn-save">💾 Save Changes</button>
+            <button type="reset" class="btn btn-reset">↺ Reset</button>
+            <a href="Recipes_List.html"><button type="button" class="btn btn-cancel">✕ Cancel</button></a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script src="Edit_recipe.js"></script>
+
+</body>
+</html>

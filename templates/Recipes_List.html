@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Piece Of Cake</title>
+    <link rel="stylesheet" href="Recipes_List.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body class="recipes-page">
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="Cake_Logo.png" alt="logo">
+    </div>
+    <a class="nav-link" href="Home_Page.html"><i class="fas fa-home"></i> Home</a> |
+
+    <!-- Admin Only (Add recipe) -->
+
+    <a class="nav-link admin-only" href="ADD-Recipe.html"><i class="fas fa-plus"></i>Add Recipe</a> 
+
+    <!-- User Only (Favorites) -->
+
+    <a class="nav-link user-only" href="favorites.html"><i class="fas fa-heart"></i> Favorites</a> |
+
+    <a class="nav-link" href="Sign_.html"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>|
+</nav>
+
+<h1 class="title">Available Recipes</h1>
+<p class="subtitle">Search for recipes by name or ingredients</p>
+
+<!-- Search Bar -->
+
+<form class="search-form" action="#" method="get">
+    <label for="search">Search:</label>
+    <input 
+        type="text" 
+        id="search" 
+        name="search" 
+        placeholder="Enter recipe name or ingredient"
+        required
+    >
+    <button type="submit">Search</button>
+</form>
+
+<!-- Recipes List -->
+
+<div class="recipes-container">
+<ul class="recipes-list"></ul>
+</div>
+
+<footer>
+    <p>Piece Of Cake Website © 2026</p>
+</footer>
+</body>
+
+<script src="Favorites.js"></script>
+<script src="Recipes_List.js"></script>
+
+</html>

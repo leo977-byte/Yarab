@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+         <meta charset="UTF-8" />
+        <title> Piece of Cake </title>
+        <link rel="stylesheet" href="Add_recipe.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+       <nav>
+    <img src="Cake_Logo.png" alt="Logo">
+    <div class="nav-links">
+        <a href="Home_Page.html"><i class="fa-solid fa-house"></i>Home</a>
+        <a href="Recipes_List.html"><i class="fa-solid fa-utensils"></i>Recipes</a>
+        <a href="Favorites.html"><i class="fa-solid fa-heart"></i>Favorites</a>
+        <a href="Home_Page.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+    </div>
+</nav>
+        <hr>
+        <h1> Add Recipe </h1>
+        <hr>
+        <form method="post">
+            <div>
+                <label for="RecipeID">Recipe ID: </label><br>
+                <input id="RecipeID" type="text" name = "Recipe ID" placeholder="e.g 100" required><br> <br>
+            </div>
+            <div>
+                <label for="RecipeName">Recipe Name: </label><br>
+                <input id="RecipeName" type="text" name ="Recipe Name" placeholder="Enter Name of Recipe" required><br><br>
+            </div>
+            <div>
+                <label for="namecourse">Course Name: </label><br>
+                <input id="namecourse" list="CourseName" name="CourseName" placeholder="Choose Course" />
+                <datalist id="CourseName">
+                    <option value="Appetizers">
+                    <option value="Main Course">
+                    <option value="Dessert">
+                </datalist><br><br>
+            </div>
+            <div>
+                <label for="description"> Recipe Description:  </label><br>
+                <textarea id="description" type="text" name="Recipe Description" cols="80" rows="15"
+                 placeholder="Step-by-step instructions or description of the dish..." required></textarea><br><br>
+            </div>
+
+            <hr>
+            <h2>Ingredients</h2> <hr>
+          
+
+<table border="2" id="ingredientsTable">
+    <thead>
+        <tr>
+            <th>Ingredient ID</th>
+            <th>Ingredient Name</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input type="text" name="Ingredient ID" placeholder="ID"></td>
+            <td><input type="text" name="Ingredient Name" placeholder="Name"></td>
+            <td><input type="text" name="Quantity" placeholder="Qty"></td>
+        </tr>
+    </tbody>
+</table>
+ <div class="table-controls">
+    <button type="button" id="addRow">➕ Add Ingredient</button>
+    <button type="button" id="removeRow">➖ Remove Last</button>
+</div>
+            <hr>
+            <div class="upload-container">
+    <label for="file-upload" class="custom-file-upload">
+        <span>📁 Click to Upload Recipe Image</span>
+    </label>
+    <input id="file-upload" type="file" name="recipe_image">
+</div>
+            <br>
+            <hr><br>
+            <input type="submit" value="Add Recipe"><br><br>
+            <input type="reset" value="Reset">
+
+        </form>
+        <script src="Add_recipe.js"></script>
+        <footer>&copy; 2026 Piece of Cake.</footer>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Piece of Cake{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'Home_Style.css' %}">
+{% endblock %}
+
+{% block content %}
+<header>
+    <div class="title">
+        <h1>Piece of cake</h1>
+        <h2>Taste the Magic of Homemade Cooking</h2><br>
+        <p>Are You Hungry?<br> Discover delicious recipes and start cooking today &#127869</p>
+    </div>
+    <div class="overlay"></div>
+</header>
+
+<div class="pop_rec">
+    <h3>Popular Recipes</h3>
+
+    <div class="recipes">
+        <div class="card">
+            <img src="{% static 'pizza.jpg' %}" width="200" height="300">
+            <p>Italian Pizza</p>
+        </div>
+        <div class="card">
+            <img src="{% static 'cookies.jpg' %}" width="200" height="300">
+            <p>cookies</p>
+        </div>
+        <div class="card">
+            <img src="{% static 'pasta.webp' %}" width="200" height="300">
+            <p>Pasta Alfredo</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'Home-page.js' %}"></script>
+{% endblock %}

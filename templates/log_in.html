@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - Piece of Cake{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'sign&log in.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+    <h1>Log In</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <label>Username</label><br>
+            <input type="text" name="username" required style="width: 100%; padding: 8px; margin-bottom: 15px;">
+        </div>
+        <div class="input-group">
+            <label>Password</label><br>
+            <input type="password" name="password" required style="width: 100%; padding: 8px; margin-bottom: 15px;">
+        </div>
+        <button type="submit" style="width: 100%; padding: 10px; background-color: #ff6b6b; color: white; border: none; cursor: pointer;">Login</button>
+    </form>
+    <p style="text-align: center; margin-top: 15px;">New here? <a href="{% url 'signup' %}">Create an account</a></p>
+</div>
+{% endblock %}

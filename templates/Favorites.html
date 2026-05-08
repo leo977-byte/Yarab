@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piece of Cake - My Favorites</title>
+    
+    <link rel="stylesheet" href="Favorites.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <nav>
+        <img src="Cake_Logo.png" alt="Logo">
+        <div class="nav-links">
+            <a href="Home_Page.html"><i class="fa-solid fa-house"></i>Home</a>
+            <a href="Recipes_List.html"><i class="fa-solid fa-utensils"></i>Recipes</a>
+            <a href="Favorites.html"><i class="fa-solid fa-heart"></i>Favorites</a>
+            <a href="Home_Page.html"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+        </div>
+    </nav>
+
+    <div class="header">
+        <h1>My Favorites <i class="fa-solid fa-heart"></i></h1>
+        <p>A place for all your loved tastes</p>
+    </div>
+
+    <div class="content-area">
+        
+        <div class="controls" id="controlsSection">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search by name...">
+            </div>
+            <div class="filter-box">
+                <i class="fa-solid fa-filter"></i>
+                <select id="categoryFilter">
+                    <option value="all">All Dishes</option>
+                    <option value="main">Main Dish</option>
+                    <option value="dessert">Dessert</option>
+                    <option value="appetizer">Appetizer</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="recipes-grid" id="recipesGrid">
+            
+            <div id="emptyMessage" class="empty-state">
+                <i class="fa-regular fa-face-smile"></i>
+                <h3>No favorite recipes yet!</h3>
+                <p>Explore and add some magic to your list.</p>
+                <a href="Recipes_List.html" class="btn-browse">Explore Recipes</a>
+            </div>
+
+            </div>
+    </div>
+
+    <footer>&copy; 2026 Piece of Cake.</footer>
+
+    <script src="Favorites.js"></script>
+
+</body>
+</html>

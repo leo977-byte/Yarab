@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up - Piece of Cake{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'sign&log in.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container" style="max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+    <h1>Sign Up</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        <p><strong>I want to join as:</strong></p>
+        <input type="radio" id="user" name="user_role" value="user" checked>
+        <label for="user">Regular User (Browse & Save)</label><br>
+        <input type="radio" id="admin" name="user_role" value="admin">
+        <label for="admin">Admin (Add & Edit Recipes)</label>
+        <hr style="margin: 20px 0;">
+
+        <label>Username</label><br>
+        <input type="text" name="username" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+
+        <label>Email</label><br>
+        <input type="email" name="email" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+
+        <label>Password</label><br>
+        <input type="password" name="password" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
+
+        <label>Confirm Password</label><br>
+        <input type="password" name="confirm_password" required style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+        <button type="submit" style="width: 100%; padding: 10px; background-color: #ff6b6b; color: white; border: none; cursor: pointer;">Create Account</button>
+    </form>
+</div>
+{% endblock %}
