@@ -1,20 +1,15 @@
+
 const searchInput = document.getElementById("search");
-const recipeList = document.querySelector('.recipes-list');
-
-
-document.querySelector("form").addEventListener("submit", function(e) {
-    e.preventDefault();
-});
-
 
 searchInput.addEventListener("input", function () {
     const value = searchInput.value.toLowerCase();
-    
-    const recipes = document.querySelectorAll(".recipe"); 
+    const recipes = document.querySelectorAll(".recipe-card");
 
     recipes.forEach(recipe => {
-        const text = recipe.textContent.toLowerCase();
-        if (text.includes(value)) {
+        const title = recipe.dataset.title.toLowerCase();
+        const category = recipe.dataset.category.toLowerCase();
+
+        if (title.includes(value) || category.includes(value)) {
             recipe.style.display = "block";
         } else {
             recipe.style.display = "none";
@@ -22,38 +17,50 @@ searchInput.addEventListener("input", function () {
     });
 });
 
-function loadRecipes() {
-    const savedRecipes = JSON.parse(localStorage.getItem('myRecipes')) || [];
-    
-    
-    recipeList.innerHTML = "";
 
-    savedRecipes.forEach(recipe => {
-        const recipeHTML = `
-            <li class="recipe recipe-card">
-                <img src="${recipe.image}" alt="${recipe.name}">
-                <h3>${recipe.name || recipe.title}</h3> 
-                <p class="category">${recipe.category}</p>
-                <p><a href="recipe-details.html?id=${recipe.id}" class="details-btn">View Recipe details</a></p>
-                
-                <button class="fav-btn user-only" onclick="addToFavorites(${recipe.id}, '${recipe.title}', '${recipe.image}', '${recipe.category}')">
-                     Add to Favorites 
-                </button>
+document.addEventListener("click", function(e) {
+    if (e.target.closest(".btn-favorite")) {
+        const btn = e.target.closest(".btn-favorite");
+        const recipeId = btn.dataset.id;
+        addToFavorites(recipeId);
+    }
+});
 
-                <a href="Edit_recipe.html?id=${recipe.id}"><button class="edit-recipe-btn admin-only">Edit Recipe</button></a>
-            </li>
-        `;
-        recipeList.innerHTML += recipeHTML;
-    });
-
-    checkRole();
+function addToFavorites(recipeId) {
+    fetch(`/favorites/add/${recipeId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(err => console.error('Error:', err));
 }
+
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        document.cookie.split(';').forEach(cookie => {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            }
+        });
+    }
+    return cookieValue;
+}
+
 
 function checkRole() {
     const role = localStorage.getItem("role");
     const adminElements = document.querySelectorAll(".admin-only");
     const userElements = document.querySelectorAll(".user-only");
-    
+
     if (role === "admin") {
         userElements.forEach(el => el.style.display = "none");
         adminElements.forEach(el => el.style.display = "inline-block");
@@ -63,4 +70,4 @@ function checkRole() {
     }
 }
 
-window.onload = loadRecipes;
+window.onload = checkRole;

@@ -1,54 +1,62 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title> Recipe-details</title>
-<link rel="stylesheet" href="{% static 'css/recipe_details.css%}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>{{ recipe.title }} - Recipe Details</title>
+    <link rel="stylesheet" href="{% static 'css/recipe_details.css' %}">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
-   <nav>
-        <img src= "Cake_Logo.png"  alt="Recipe Finder Logo" >
-    <div id="navlinks" >
-        <a href="Home_Page.html"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="Recipes_List.html" ><i class="fa-solid fa-utensils"></i> Recipes </a>
-        <a href="Sign_Up.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out </a>
-    </div>
+    <nav>
+        <img src="{% static 'images/Cake_Logo.png' %}" alt="Recipe Finder Logo">
+        <div id="navlinks">
+            <a href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="{% url 'recipe_list' %}"><i class="fa-solid fa-utensils"></i> Recipes</a>
+            <a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</a>
+        </div>
     </nav>
 
-<div class="header">
-<h1 id="Title"></h1> 
-<p id="category"></p>
-<img id="recipeImage" src="" alt="recipe image" width="450" height="350">
+    <div class="header">
+        <h1>{{ recipe.title }}</h1>
+        <p class="category">{{ recipe.get_category_display }}</p>
 
-<div id="actionButtons">
-    
-<button id="addToFavBtn">Add to favourite<i class="fa-solid fa-heart"></i></button>
-<a  id="editBtn">Edit recipe</a>
-<button id="deleteBtn">Delete recipe</button>
-</div>
+        {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" width="450" height="350">
+        {% else %}
+            <img src="{% static 'images/default_recipe.png' %}" alt="No image" width="450" height="350">
+        {% endif %}
 
-</div>
+        <div id="actionButtons">
+            <button class="user-only" data-id="{{ recipe.id }}">
+                Add to Favourites <i class="fa-solid fa-heart"></i>
+            </button>
+            <a href="#" class="admin-only">Edit Recipe</a>
+            <button class="admin-only">Delete Recipe</button>
+        </div>
+    </div>
 
+    <div class="content">
+        <div class="section1">
+            <h2><u>Ingredients</u></h2>
+            <ul>
+                {% for ingredient in recipe.ingredients.splitlines %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </div>
 
- <div class="content">
-  <div class="section1">
- <h2><u>Ingredients</u></h2>
-<ul id="ingredientsList"></ul>
- </div>
-<div class="section2">
-<h2><u>Preparation Steps</u></h2>
-<ol id="stepsList"></ol>
-</div>
- 
-</div>
-<div class="recipe-info">
-  <p><strong>Cooking Time:</strong> <span id="cookingTime"></span></p>
-  <p><strong>Servings:</strong><span id="servings"></span></p>
-</div>
+        <div class="section2">
+            <h2><u>Preparation Steps</u></h2>
+            <ol>
+                {% for step in recipe.instructions.splitlines %}
+                    <li>{{ step }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
 
-<script src="{% static 'js/Favorites.js %}"></script>
-<script src="{% static 'js/recipe-details.js %}"></script>
+    <script src="{% static 'js/Favorites.js' %}"></script>  
+    <script src="{% static 'js/recipe-details.js' %}"></script>  
 </body>
 </html>
