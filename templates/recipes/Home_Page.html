@@ -4,7 +4,7 @@
 {% block title %}Home - Piece of Cake{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'Home_Style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Home_Style.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -22,15 +22,15 @@
 
     <div class="recipes">
         <div class="card">
-            <img src="{% static 'pizza.jpg' %}" width="200" height="300">
+            <img src="{% static 'images/pizza.jpg' %}" width="200" height="300">
             <p>Italian Pizza</p>
         </div>
         <div class="card">
-            <img src="{% static 'cookies.jpg' %}" width="200" height="300">
+            <img src="{% static 'images/cookies.jpg' %}" width="200" height="300">
             <p>cookies</p>
         </div>
         <div class="card">
-            <img src="{% static 'pasta.webp' %}" width="200" height="300">
+            <img src="{% static 'images/pasta.webp' %}" width="200" height="300">
             <p>Pasta Alfredo</p>
         </div>
     </div>
@@ -38,5 +38,5 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'Home-page.js' %}"></script>
+    <script src="{% static 'js/Home-page.js' %}"></script>
 {% endblock %}

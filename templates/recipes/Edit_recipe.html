@@ -1,17 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Edit Recipe - Admin</title>
-  <link rel="stylesheet" href="Edit_recipe.css" />
+  <link rel="stylesheet" href="{% static 'css/Edit_recipe.css %}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
   
   <nav class="navbar">
-    <img class="nav-logo" src="Cake_Logo.png">
+    <img class="nav-logo" src="{% static 'images/Cake_Logo.png'%}">
     <div class="nav-links">
       <a href="Home_Page.html"><i class="fa-solid fa-house"></i> Home</a>
       <a href="Recipes_List.html"><i class="fa-solid fa-utensils"></i> Recipes</a>
@@ -111,7 +112,7 @@
     </div>
   </div>
 
-<script src="Edit_recipe.js"></script>
+<script src="{% static 'js/Edit_recipe.js' %}"></script>
 
 </body>
 </html>
