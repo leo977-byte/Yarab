@@ -121,3 +121,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+#added BY AlAA
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
