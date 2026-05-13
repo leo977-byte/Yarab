@@ -28,7 +28,8 @@
         {% endif %}
 
         <div id="actionButtons">
-            <button class="user-only" data-id="{{ recipe.id }}">
+            <button class="user-only" 
+                    onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
                 Add to Favourites <i class="fa-solid fa-heart"></i>
             </button>
             <a href="#" class="admin-only">Edit Recipe</a>
@@ -55,6 +56,30 @@
             </ol>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end', 
+            showConfirmButton: false,
+            timer: 3000, 
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        Toast.fire({
+            icon: "{% if message.tags == 'success' %}success{% else %}info{% endif %}",
+            title: "{{ message|escapejs }}"
+        });
+        {% endfor %}
+    </script>
+    {% endif %}
 
     <script src="{% static 'js/Favorites.js' %}"></script>  
     <script src="{% static 'js/recipe-details.js' %}"></script>  

@@ -21,7 +21,7 @@
     <a class="nav-link admin-only" href="#"><i class="fas fa-plus"></i> Add Recipe</a>
 
     <!-- User Only (Favorites) -->
-    <a class="nav-link user-only" href="#"><i class="fas fa-heart"></i> Favorites</a> |
+    <a class="nav-link user-only" href="{% url 'favorites' %}"><i class="fas fa-heart"></i> Favorites</a> |
 
     <a class="nav-link" href="#"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a> |
 </nav>
@@ -62,7 +62,8 @@
         <a href="{% url 'recipe_detail' recipe.pk %}" class="btn-details">
             <i class="fas fa-eye"></i> View Recipe
         </a>
-        <button class="btn-favorite user-only" data-id="{{ recipe.id }}">
+        <button class="btn-favorite user-only" 
+                onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
             <i class="fas fa-heart"></i> Add to Favorites
         </button>
     </div>
@@ -77,6 +78,30 @@
     <p>Piece Of Cake Website © 2026</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+<script>
+    {% for message in messages %}
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end', 
+        showConfirmButton: false,
+        timer: 3000, 
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
+    Toast.fire({
+        icon: "{% if message.tags == 'success' %}success{% else %}info{% endif %}",
+        title: "{{ message|escapejs }}"
+    });
+    {% endfor %}
+</script>
+{% endif %}
 <script src="{% static 'js/Favorites.js' %}"></script>     
 <script src="{% static 'js/Recipes_List.js' %}"></script>  
 
