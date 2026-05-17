@@ -3,74 +3,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Piece Of Cake</title>
+    <title>Piece Of Cake - Recipes</title>
     <link rel="stylesheet" href="{% static 'css/Recipes_List.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body class="recipes-page">
 
-<!-- Navigation Bar -->
 <nav class="navbar">
     <div class="logo">
-        <img src="{% static 'images/Cake_Logo.png' %}" alt="logo">  
+        <img src="{% static 'images/Cake_Logo.png' %}" alt="logo">
     </div>
-    <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a> |
+    <div class="nav-links">
+        <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
 
-    <!-- Admin Only (Add recipe) -->
-    <a class="nav-link admin-only" href="#"><i class="fas fa-plus"></i> Add Recipe</a>
+        {% if user.is_staff %}
+            <a class="nav-link admin-only" href="{% url 'add_recipe' %}"><i class="fas fa-plus"></i> Add Recipe</a>
+        {% endif %}
 
-    <!-- User Only (Favorites) -->
-    <a class="nav-link user-only" href="{% url 'favorites' %}"><i class="fas fa-heart"></i> Favorites</a> |
+        {% if user.is_authenticated and not user.is_staff %}
+            <a class="nav-link user-only" href="{% url 'favorites' %}"><i class="fas fa-heart"></i> Favorites</a>
+        {% endif %}
 
-    <a class="nav-link" href="#"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a> |
+        {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+        {% else %}
+            <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-right-to-bracket"></i> Login</a>
+        {% endif %}
+    </div>
 </nav>
 
 <h1 class="title">Available Recipes</h1>
-<p class="subtitle">Search for recipes by name or ingredients</p>
+<p class="subtitle">Search for recipes by name or category</p>
 
-<!-- Search Bar -->
 <div class="search-form">
     <label for="search">Search:</label>
     <input
         type="text"
         id="search"
         name="search"
-        placeholder="Enter recipe name or ingredient"
+        placeholder="Enter recipe name or category..."
     >
 </div>
 
-<!-- Recipes List -->
 <div class="recipes-container">
     <ul class="recipes-list">
-
         {% for recipe in recipes %}
-<li class="recipe-card"
-    data-title="{{ recipe.title }}"
-    data-category="{{ recipe.category }}">
+        <li class="recipe-card" data-title="{{ recipe.title }}" data-category="{{ recipe.get_category_display }}">
+            {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            {% else %}
+                <img src="{% static 'images/default_recipe.png' %}" alt="No image">
+            {% endif %}
 
-    {% if recipe.image %}
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-    {% else %}
-        <img src="{% static 'images/default_recipe.png' %}" alt="No image">
-    {% endif %}
+            <h3>{{ recipe.title }}</h3>
+            <span class="category-badge">{{ recipe.get_category_display }}</span>
 
-    <h3>{{ recipe.title }}</h3>
-    <span class="category-badge">{{ recipe.get_category_display }}</span>
+            <div class="card-buttons">
+                <a href="{% url 'recipe_detail' recipe.pk %}" class="btn-details">
+                    <i class="fas fa-eye"></i> View Recipe
+                </a>
 
-    <div class="card-buttons">
-        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn-details">
-            <i class="fas fa-eye"></i> View Recipe
-        </a>
-        <button class="btn-favorite user-only" 
-                onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
-            <i class="fas fa-heart"></i> Add to Favorites
-        </button>
-    </div>
-</li>
-{% empty %}
-    <p class="no-recipes">No recipes available yet.</p>
-{% endfor %}
+                {% if user.is_authenticated and not user.is_staff %}
+                <button class="btn-favorite user-only"
+                        onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
+                    <i class="fas fa-heart"></i> Add to Favorites
+                </button>
+                {% endif %}
+
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'edit_recipe' recipe.pk %}" class="btn-edit admin-only" style="background-color: #d35400; color: white; padding: 10px 15px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: background 0.3s ease;">
+                    <i class="fas fa-pen"></i> Edit Recipe
+                </a>
+                {% endif %}
+            </div>
+        </li>
+        {% empty %}
+            <p class="no-recipes">No recipes available yet.</p>
+        {% endfor %}
     </ul>
 </div>
 
@@ -85,9 +95,9 @@
     {% for message in messages %}
     const Toast = Swal.mixin({
         toast: true,
-        position: 'top-end', 
+        position: 'top-end',
         showConfirmButton: false,
-        timer: 3000, 
+        timer: 3000,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -102,7 +112,7 @@
     {% endfor %}
 </script>
 {% endif %}
-<script src="{% static 'js/Favorites.js' %}"></script>     
+
 <script src="{% static 'js/Recipes_List.js' %}"></script>  
 
 </body>

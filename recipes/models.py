@@ -13,6 +13,7 @@ class Recipe(models.Model):
     description = models.TextField()
     instructions = models.TextField()
     image = models.ImageField(upload_to='recipes/', null=True, blank=True)
+    image_name = models.CharField(max_length=255, default='default_recipe.png')
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     favorites = models.ManyToManyField(User, through='Favorite', related_name='favorite_recipes', blank=True)
@@ -33,4 +34,7 @@ class Favorite(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)  
 
     class Meta:
-        unique_together = ('user', 'recipe') 
+        unique_together = ('user', 'recipe')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.recipe.title}"

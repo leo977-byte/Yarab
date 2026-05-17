@@ -5,6 +5,19 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/sign&log in.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'images/firstpic.png' %}") !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            justify-content: center !important;
+            min-height: 100vh !important;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -14,10 +27,12 @@
         {% csrf_token %}
 
         <p><strong>I want to join as:</strong></p>
-        <input type="radio" id="user" name="user_role" value="user" checked>
-        <label for="user">Regular User (Browse & Save)</label><br>
-        <input type="radio" id="admin" name="user_role" value="admin">
-        <label for="admin">Admin (Add & Edit Recipes)</label>
+        <div class="user-role">
+            <input type="radio" id="user" name="user_role" value="user" checked>
+            <label for="user">Regular User (Browse & Save)</label><br>
+            <input type="radio" id="admin" name="user_role" value="admin">
+            <label for="admin">Admin (Add & Edit Recipes)</label>
+        </div>
         <hr style="margin: 20px 0;">
 
         <label>Username</label><br>
@@ -29,10 +44,11 @@
         <label>Password</label><br>
         <input type="password" name="password" required style="width: 100%; padding: 8px; margin-bottom: 10px;">
 
-        <label>Confirm Password</label><br>
-        <input type="password" name="confirm_password" required style="width: 100%; padding: 8px; margin-bottom: 20px;">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
 
-        <button type="submit" style="width: 100%; padding: 10px; background-color: #ff6b6b; color: white; border: none; cursor: pointer;">Create Account</button>
+
+        <button type="submit" style="width: 100%; padding: 10px; background-color: #260202; color: white; border: none; cursor: pointer;">Sign Up</button>
     </form>
 </div>
 {% endblock %}

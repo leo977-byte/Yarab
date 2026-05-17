@@ -12,7 +12,7 @@
 <body>
     <nav>
         <div class="logo">
-            <img src="{% static 'Cake_Logo.png' %}" alt="Logo" width="50">
+            <img src="{% static 'images/Cake_Logo.png' %}" alt="Logo" width="50">
             <span>Piece of Cake</span>
         </div>
         <div class="nav-links">
@@ -25,7 +25,7 @@
                 {% else %}
                     <a href="{% url 'favorites' %}">Favorites</a>
                 {% endif %}
-                <span style="color: #fff; margin-left: 15px;">Hi, {{ user.username }}</span>
+                <span style="color: #260202; margin-left: 15px;">Hi, {{ user.username }}</span>
                 <a href="{% url 'logout' %}" style="color: #ffb7b7;">Logout</a>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>

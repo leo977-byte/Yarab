@@ -40,11 +40,11 @@
     <div class="content">
         <div class="section1">
             <h2><u>Ingredients</u></h2>
-            <ul>
-                {% for ingredient in recipe.ingredients.splitlines %}
-                    <li>{{ ingredient }}</li>
-                {% endfor %}
-            </ul>
+          <ul>
+        {% for ingredient in recipe.ingredients_list.all %}
+            <li>{{ ingredient.name }} - {{ ingredient.quantity }}</li>
+        {% endfor %}
+          </ul>
         </div>
 
         <div class="section2">

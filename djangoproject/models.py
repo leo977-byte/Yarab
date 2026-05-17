@@ -5,8 +5,8 @@ class Recipe(models.Model):
     description = models.TextField()
     ingredients = models.TextField(help_text="Enter ingredients separated by commas")
     instructions = models.TextField()
-    # image requires 'Pillow' library installed. If you get an error, we can fix it later.
-    #image = models.ImageField(upload_to='recipes/', blank=True, null=True)
+    #image requires 'Pillow' library installed. If you get an error, we can fix it later.
+    image = models.ImageField(upload_to='recipes/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

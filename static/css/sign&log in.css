@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 
 body {
-    background-image: url("{% static 'images/firstpic.png' %}");
+    background-image: url("../images/firstpic.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -59,21 +59,35 @@ input[type="password"],
 }
 
 .user-role {
+    /* Change width from 450px to 100% so it never breaks out of its parent form */
+    width: 100%;
+    padding: 15px 10px; /* Reduced padding so it doesn't expand past the borders */
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px; /* Adjusted to match your container's look */
+    color: #3c0303;
+    box-sizing: border-box;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
     justify-content: space-around;
     font-size: 0.8rem;
-    color: #741e1e;
+    color: #260202;
 }
 
 .user-role label {
     cursor: pointer;
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.9);
-    display: inline-block;
-    width: 500px;
-    display: flexbox;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex: 1;
+    /* Remove the fixed width: 500px; from here entirely! */
+    width: auto;
+    margin-left: 4px;
 }
 
 input[type="radio"] {
@@ -82,7 +96,7 @@ input[type="radio"] {
 }
 
 input[type="submit"] {
-    background: linear-gradient(to right, #741e1e 0%, #C7B7A3 100%);
+    background: linear-gradient(to right, #4a0b0b 0%, #C7B7A3 100%);
     color: #ffffff;
     border: none;
     border-radius: 50px;
@@ -103,7 +117,7 @@ input[type="submit"]:hover {
 }
 
 a {
-    color: #741e1e;
+    color: #4a0b0b;
     font-size: 0.9rem;
     text-decoration: underline;
 }

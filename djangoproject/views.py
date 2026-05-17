@@ -6,12 +6,12 @@ from recipes.models import Recipe, Favorite
 
 
 def home_view(request):
-    return render(request, 'Home_Page.html')
+    return render(request, 'recipes/Home_Page.html')
 
 
 def recipe_list_view(request):
     recipes = Recipe.objects.all()
-    return render(request, 'Recipes_List.html', {'recipes': recipes})
+    return render(request, 'recipes/Recipes_List.html', {'recipes': recipes})
 
 
 def signup_view(request):
@@ -37,7 +37,7 @@ def signup_view(request):
 
         messages.success(request, "Account created! Now you can log in.")
         return redirect('login')
-    return render(request, 'Sign_up.html')
+    return render(request, 'account/Sign_up.html')
 
 
 def login_view(request):
@@ -50,7 +50,7 @@ def login_view(request):
             return redirect('home')
         else:
             messages.error(request, "Invalid username or password.")
-    return render(request, 'log_in.html')
+    return render(request, 'account/log_in.html')
 
 
 def logout_view(request):
@@ -59,11 +59,11 @@ def logout_view(request):
 
 
 # Add placeholders for the rest of the team
-def add_recipe_view(request): return render(request, 'ADD-Recipe.html')
+def add_recipe_view(request): return render(request, 'recipes/ADD-Recipe.html')
 
 
-def favorites_view(request): return render(request, 'Favorites.html')
+def favorites_view(request): return render(request, 'recipes/Favorites.html')
 
 # Add this to the bottom of views.py
 def edit_recipe_view(request, id):
-    return render(request, 'Edit_recipe.html')
+    return render(request, 'recipes/Edit_recipe.html')
