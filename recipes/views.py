@@ -152,7 +152,7 @@ def edit_recipe_view(request, pk):
         recipe.save()
 
         # Clear out old tabular ingredients and overwrite with current inputs
-        recipe.ingredients_list.all().delete()
+        recipe.ingredients.all().delete()
         ing_names = request.POST.getlist('ingredient_name[]')
         ing_qtys = request.POST.getlist('ingredient_qty[]')
         for name, qty in zip(ing_names, ing_qtys):

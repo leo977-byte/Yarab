@@ -5,112 +5,137 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Edit Recipe - Admin</title>
+
   <link rel="stylesheet" href="{% static 'css/Edit_recipe.css' %}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
 
-  
-  <nav class="navbar">
-    <img class="nav-logo" src="{% static 'images/Cake_Logo.png'%}">
-    <div class="nav-links">
-      <a href="Home_Page.html"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="Recipes_List.html"><i class="fa-solid fa-utensils"></i> Recipes</a>
-      <a href="ADD_Recipe.html"><i class="fa-utility fa-semibold fa-plus"></i> Add Recipe</a>
-      <a href="Home_Page.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <img class="nav-logo" src="{% static 'images/Cake_Logo.png' %}">
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="{% url 'recipe_list' %}"><i class="fa-solid fa-utensils"></i> Recipes</a>
+    <a href="{% url 'add_recipe' %}"><i class="fa-solid fa-plus"></i> Add Recipe</a>
+    <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page-wrapper">
+  <div class="card">
+
+    <div class="card-header">
+      <h1>Edit Recipe</h1>
+      <p>Admin Panel · Update recipe details below</p>
     </div>
-  </nav>
 
- 
-  <div class="page-wrapper">
-    <div class="card">
+    <div class="card-body">
 
-      <div class="card-header">
-        <h1>Edit Recipe</h1>
-        <p>Admin Panel · Update recipe details below</p>
-      </div>
+      <!-- FORM -->
+      <form method="POST" action="{% url 'edit_recipe' recipe.pk %}" enctype="multipart/form-data">
+        {% csrf_token %}
 
-      <div class="card-body">
-        <form id="edit-recipe-form">
-          
-          <div class="field-group">
-            <label for="recipe_id">Recipe ID</label>
-            <input type="text" id="recipe_id" name="recipe_id">
-          </div>
+        <!-- Recipe Title -->
+        <div class="field-group">
+          <label>Recipe Name</label>
+          <input type="text" name="title" value="{{ recipe.title }}" required>
+        </div>
 
-          
-          <div class="field-group">
-            <label for="recipe_name">Recipe Name</label>
-            <input type="text" id="recipe_name" name="recipe_name" required>
-          </div>
+        <!-- Category -->
+        <div class="field-group">
+          <label>Course Name</label>
+          <select name="category" required>
+            <option value="main_course" {% if recipe.category == "main_course" %}selected{% endif %}>
+              Main Course
+            </option>
 
-          
-          <div class="field-group">
-            <label for="course_name">Course Name</label>
-            <select id="course_name" name="course_name" required>
-              <option value="appetizers">Appetizers</option>
-              <option value="main_course" selected>Main Course</option>
-              <option value="dessert">Dessert</option>
-            </select>
-          </div>
+            <option value="dessert" {% if recipe.category == "dessert" %}selected{% endif %}>
+              Dessert
+            </option>
 
-          
-          <div class="field-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" required></textarea>
-          </div>
+            <option value="appetizer" {% if recipe.category == "appetizer" %}selected{% endif %}>
+              Appetizer
+            </option>
+          </select>
+        </div>
 
-          
-          <div class="section-title">
-            <h2>Ingredients</h2>
-          </div>
+        <!-- Instructions -->
+        <div class="field-group">
+          <label>Instructions</label>
+          <textarea name="instructions" required>{{ recipe.instructions }}</textarea>
+        </div>
 
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Ingredient Name</th>
-                  <th>Quantity</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="ingredients_table">
-                <tr>
-                  <td><input type="text" name="ingredient_id[]" value="1" readonly size="5"></td>
-                  <td><input type="text" name="ingredient_name[]" value="Spaghetti" required></td>
-                  <td><input type="text" name="ingredient_qty[]" value="200g" required></td>
-                  <td><button type="button" class="btn btn-remove" onclick="removeRow(this)">✕ Remove</button></td>
-                </tr>
-                <tr>
-                  <td><input type="text" name="ingredient_id[]" value="2" readonly size="5"></td>
-                  <td><input type="text" name="ingredient_name[]" value="Eggs" required></td>
-                  <td><input type="text" name="ingredient_qty[]" value="3" required></td>
-                  <td><button type="button" class="btn btn-remove" onclick="removeRow(this)">✕ Remove</button></td>
-                </tr>
-                <tr>
-                  <td><input type="text" name="ingredient_id[]" value="3" readonly size="5"></td>
-                  <td><input type="text" name="ingredient_name[]" value="Pancetta" required></td>
-                  <td><input type="text" name="ingredient_qty[]" value="100g" required></td>
-                  <td><button type="button" class="btn btn-remove" onclick="removeRow(this)">✕ Remove</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <!-- Image -->
+        <div class="field-group">
+          <label>Recipe Image</label>
+          <input type="file" name="image">
+          {% if recipe.image %}
+            <p>Current Image: <img src="{{ recipe.image.url }}" width="100"></p>
+          {% endif %}
+        </div>
 
-          <button type="button" class="btn btn-add" onclick="addIngredient()">＋ Add Ingredient</button>
+        <!-- INGREDIENTS -->
+        <div class="section-title">
+          <h2>Ingredients</h2>
+        </div>
 
-          
-          <div class="actions">
-            <button type="submit" class="btn btn-save">💾 Save Changes</button>
-            <button type="reset" class="btn btn-reset">↺ Reset</button>
-            <a href="Recipes_List.html"><button type="button" class="btn btn-cancel">✕ Cancel</button></a>
-          </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ingredient Name</th>
+                <th>Quantity</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-        </form>
-      </div>
+            <tbody id="ingredients_table">
+
+              {% for ing in recipe.ingredients.all %}
+              <tr>
+                <td>
+                  <input type="text" name="ingredient_name[]" value="{{ ing.name }}" required>
+                </td>
+
+                <td>
+                  <input type="text" name="ingredient_qty[]" value="{{ ing.quantity }}" required>
+                </td>
+
+                <td>
+                  <button type="button" class="btn btn-remove" onclick="removeRow(this)">
+                    ✕ Remove
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Add Ingredient -->
+        <button type="button" class="btn btn-add" onclick="addIngredient()">
+          ＋ Add Ingredient
+        </button>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+          <button type="submit" class="btn btn-save">💾 Save Changes</button>
+          <button type="reset" class="btn btn-reset">↺ Reset</button>
+
+          <a href="{% url 'recipe_list' %}">
+            <button type="button" class="btn btn-cancel">✕ Cancel</button>
+          </a>
+        </div>
+
+      </form>
     </div>
   </div>
+</div>
 
 <script src="{% static 'js/Edit_recipe.js' %}"></script>
 
