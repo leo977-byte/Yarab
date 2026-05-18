@@ -37,6 +37,7 @@ def signup_view(request):
             return redirect('home')
 
     return render(request, 'account/Sign_Up.html')
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -82,7 +83,15 @@ def recipe_detail_view(request, pk):
     is_fav = False
     if request.user.is_authenticated and not request.user.is_staff:
         is_fav = Favorite.objects.filter(user=request.user, recipe=recipe).exists()
-    return render(request, 'recipes/recipe-details.html', {'recipe': recipe, 'is_favorite': is_fav})
+    
+    # Calculate admin verification explicitly
+    is_admin_user = request.user.is_authenticated and request.user.is_staff
+    
+    return render(request, 'recipes/recipe-details.html', {
+        'recipe': recipe, 
+        'is_favorite': is_fav,
+        'is_admin': is_admin_user
+    })
 
 
 @login_required
@@ -101,12 +110,28 @@ def add_recipe_view(request):
             image=image
         )
 
-        # Handle dynamic table ingredients tabular array
+        # Handle ingredients submitted via table inputs
         ing_names = request.POST.getlist('ing_name')
         ing_qtys = request.POST.getlist('ing_qty')
-        for name, qty in zip(ing_names, ing_qtys):
-            if name.strip():
-                Ingredient.objects.create(recipe=recipe, name=name.strip(), quantity=qty.strip())
+        has_table_ingredients = any(name.strip() for name in ing_names)
+
+        if has_table_ingredients:
+            for name, qty in zip(ing_names, ing_qtys):
+                if name.strip():
+                    Ingredient.objects.create(recipe=recipe, name=name.strip(), quantity=qty.strip())
+        else:
+            # Fallback for comma-separated ingredient textarea
+            ingredients_text = request.POST.get('ingredients', '').strip()
+            if ingredients_text:
+                for line in ingredients_text.split(','):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    parts = line.split(maxsplit=1)
+                    if len(parts) == 2:
+                        Ingredient.objects.create(recipe=recipe, name=parts[1].strip(), quantity=parts[0].strip())
+                    else:
+                        Ingredient.objects.create(recipe=recipe, name=line, quantity='')
 
         messages.success(request, "Recipe added successfully!")
         return redirect('recipe_list')
@@ -140,9 +165,21 @@ def edit_recipe_view(request, pk):
     return render(request, 'recipes/Edit_recipe.html', {'recipe': recipe})
 
 
+@login_required
+@user_passes_test(is_admin)
+def delete_recipe_view(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    recipe.delete()
+    messages.success(request, "Recipe deleted successfully.")
+    return redirect('recipe_list')
+
 
 @login_required
 def favorites_view(request):
+    if request.user.is_staff:
+        messages.error(request, "Admins cannot access favorites.")
+        return redirect('recipe_list')
+
     favorites = Favorite.objects.filter(user=request.user)
     return render(request, 'recipes/Favorites.html', {'favorites': favorites})
 
@@ -158,6 +195,10 @@ def add_to_favorites(request, recipe_id):
 
 @login_required
 def remove_from_favorites(request, recipe_id):
+    if request.user.is_staff:
+        messages.error(request, "Admins cannot remove favorites.")
+        return redirect('recipe_list')
+
     recipe = get_object_or_404(Recipe, id=recipe_id)
     Favorite.objects.filter(user=request.user, recipe=recipe).delete()
     messages.success(request, "Removed from favorites.")

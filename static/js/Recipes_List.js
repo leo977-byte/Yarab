@@ -56,18 +56,5 @@ function getCookie(name) {
 }
 
 
-function checkRole() {
-    const role = localStorage.getItem("role");
-    const adminElements = document.querySelectorAll(".admin-only");
-    const userElements = document.querySelectorAll(".user-only");
-
-    if (role === "admin") {
-        userElements.forEach(el => el.style.display = "none");
-        adminElements.forEach(el => el.style.display = "inline-block");
-    } else {
-        adminElements.forEach(el => el.style.display = "none");
-        userElements.forEach(el => el.style.display = "inline-block");
-    }
-}
-
-window.onload = checkRole;
+// Server-side rendering handles admin/user element visibility.
+// No client-side role toggling is needed here.

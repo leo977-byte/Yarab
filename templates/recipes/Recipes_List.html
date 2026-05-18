@@ -60,6 +60,15 @@
             <span class="category-badge">{{ recipe.get_category_display }}</span>
 
             <div class="card-buttons">
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'edit_recipe' recipe.pk %}" class="btn-edit admin-only" style="background-color: #d35400; color: white; padding: 10px 15px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: background 0.3s ease; margin-bottom: 8px;">
+                    <i class="fas fa-pen"></i> Edit Recipe
+                </a>
+                <a href="{% url 'delete_recipe' recipe.pk %}" class="btn-delete admin-only" style="background-color: #c0392b; color: white; padding: 10px 15px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: background 0.3s ease; margin-bottom: 8px;">
+                    <i class="fas fa-trash"></i> Delete Recipe
+                </a>
+                {% endif %}
+
                 <a href="{% url 'recipe_detail' recipe.pk %}" class="btn-details">
                     <i class="fas fa-eye"></i> View Recipe
                 </a>
@@ -69,12 +78,6 @@
                         onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
                     <i class="fas fa-heart"></i> Add to Favorites
                 </button>
-                {% endif %}
-
-                {% if user.is_authenticated and user.is_staff %}
-                <a href="{% url 'edit_recipe' recipe.pk %}" class="btn-edit admin-only" style="background-color: #d35400; color: white; padding: 10px 15px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: background 0.3s ease;">
-                    <i class="fas fa-pen"></i> Edit Recipe
-                </a>
                 {% endif %}
             </div>
         </li>

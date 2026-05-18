@@ -13,7 +13,7 @@
         <div id="navlinks">
             <a href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a>
             <a href="{% url 'recipe_list' %}"><i class="fa-solid fa-utensils"></i> Recipes</a>
-            <a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</a>
+            <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</a>
         </div>
     </nav>
 
@@ -28,12 +28,16 @@
         {% endif %}
 
         <div id="actionButtons">
-            <button class="user-only" 
-                    onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
-                Add to Favourites <i class="fa-solid fa-heart"></i>
-            </button>
-            <a href="#" class="admin-only">Edit Recipe</a>
-            <button class="admin-only">Delete Recipe</button>
+            {% if user.is_authenticated and not user.is_staff %}
+                <button class="user-only"
+                        onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
+                    Add to Favourites <i class="fa-solid fa-heart"></i>
+                </button>
+            {% endif %}
+            {% if is_admin %}
+                <a href="{% url 'edit_recipe' recipe.id %}" class="admin-only">Edit Recipe</a>
+                <button class="admin-only" onclick="confirmDelete({{ recipe.id }})">Delete Recipe</button>
+            {% endif %}
         </div>
     </div>
 
@@ -41,8 +45,8 @@
         <div class="section1">
             <h2><u>Ingredients</u></h2>
           <ul>
-        {% for ingredient in recipe.ingredients_list.all %}
-            <li>{{ ingredient.name }} - {{ ingredient.quantity }}</li>
+        {% for ingredient in recipe.ingredients.all %}
+            <li>{{ ingredient.name }}{% if ingredient.quantity %} - {{ ingredient.quantity }}{% endif %}</li>
         {% endfor %}
           </ul>
         </div>
