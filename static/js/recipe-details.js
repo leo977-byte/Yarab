@@ -1,17 +1,4 @@
 
-function checkRole() {
-    const role = localStorage.getItem("role");
-    const adminElements = document.querySelectorAll(".admin-only");
-    const userElements = document.querySelectorAll(".user-only");
-
-    if (role === "admin") {
-        userElements.forEach(el => el.classList.add("hidden"));
-        adminElements.forEach(el => el.classList.remove("hidden"));
-    } else {
-        adminElements.forEach(el => el.classList.add("hidden"));
-        userElements.forEach(el => el.classList.remove("hidden"));
-    }
-}
 
 document.addEventListener("click", function(e) {
     if (e.target.closest("#addToFavBtn")) {
@@ -49,5 +36,8 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
-window.onload = checkRole;
+function confirmDelete(recipeId) {
+    if (confirm("Are you sure you want to delete this recipe?")) {
+        window.location.href = `/recipes/delete/${recipeId}/`;
+    }
+}

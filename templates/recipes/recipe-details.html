@@ -28,16 +28,23 @@
         {% endif %}
 
         <div id="actionButtons">
+
             {% if user.is_authenticated and not user.is_staff %}
-                <button class="user-only"
-                        onclick="window.location.href='{% url 'add_to_favorites' recipe.id %}'">
-                    Add to Favourites <i class="fa-solid fa-heart"></i>
-                </button>
+                <a href="{% url 'add_to_favorites' recipe.id %}" class="user-only">
+                    Add to Favorites <i class="fa-solid fa-heart"></i>
+                </a>
             {% endif %}
+
             {% if is_admin %}
-                <a href="{% url 'edit_recipe' recipe.id %}" class="admin-only">Edit Recipe</a>
-                <button class="admin-only" onclick="confirmDelete({{ recipe.id }})">Delete Recipe</button>
+                <a href="{% url 'edit_recipe' recipe.id %}" class="admin-only">
+                    Edit Recipe
+                </a>
+
+                <a href="{% url 'delete_recipe' recipe.id %}" class="admin-only">
+                    Delete Recipe
+                </a>
             {% endif %}
+
         </div>
     </div>
 
@@ -62,28 +69,21 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {% if messages %}
-    <script>
-        {% for message in messages %}
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end', 
-            showConfirmButton: false,
-            timer: 3000, 
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-
-        Toast.fire({
-            icon: "{% if message.tags == 'success' %}success{% else %}info{% endif %}",
-            title: "{{ message|escapejs }}"
-        });
-        {% endfor %}
-    </script>
-    {% endif %}
+      {% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: "{{ message.tags }}",
+                title: "{{ message|escapejs }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        </script>
+    {% endfor %}
+{% endif %}
 
     <script src="{% static 'js/Favorites.js' %}"></script>  
     <script src="{% static 'js/recipe-details.js' %}"></script>  

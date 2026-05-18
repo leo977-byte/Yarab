@@ -59,18 +59,7 @@ body{
     z-index: 1;
     margin-top: 20px; 
 }
-.header a{
-    background:#c7b7a3;
-    padding:15px 10px;
-    color:white;
-    border-radius:20px;
-    font-weight: bold;
-    position: absolute; 
-    top: 366px;   
-    left: 550px;
-    z-index:1;
-    border: 2px solid #561c24;
-}
+
 .header button:hover {
     background: #A26769;
     transform: scale(1.05);
@@ -147,3 +136,27 @@ body{
 .hidden { 
     display: none;
  }
+#actionButtons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 370px;
+    align-items: center;
+    z-index: 1;
+}
+
+#actionButtons a {
+    background: #c7b7a3;
+    padding: 12px 18px;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    border: 2px solid #561c24;
+    text-decoration: none;
+    
+}
+
+#actionButtons a:hover {
+    background: #A26769;
+    transform: scale(1.05);
+}
